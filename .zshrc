@@ -110,6 +110,10 @@ alias pip="pip3"
 alias mexec="chmod a+x"
 alias vi="vim"
 alias vim="nvim"
+alias clion="~/clion"
+alias idea="~/idea"
+alias pycharm="~/pycharm"
+alias webstorm="~/webstorm"
 
 ### file browsing
 # list files
