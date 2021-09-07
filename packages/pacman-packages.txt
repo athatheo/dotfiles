@@ -13,3 +13,6 @@ atom
 pulseaudio
 awesome-terminal-fonts
 autorandr
+signal-desktop
+discord
+flameshot
