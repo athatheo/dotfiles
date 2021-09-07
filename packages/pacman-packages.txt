@@ -12,3 +12,4 @@ adobe-source-code-pro-fonts
 atom
 pulseaudio
 awesome-terminal-fonts
+autorandr
