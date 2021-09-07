@@ -77,6 +77,7 @@ $ paccache -rvk0
 * First thing you should run out of the box is:
 ```bash
 $ sudo pacman -S pulseaudio
+$ sudo pacman -Syu
 ```
 
 **Enable TRIM (for SSD)**
