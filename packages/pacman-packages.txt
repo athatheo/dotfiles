@@ -16,3 +16,5 @@ autorandr
 signal-desktop
 discord
 flameshot
+intellij-idea-community-edition
+pycharm-community-edition
