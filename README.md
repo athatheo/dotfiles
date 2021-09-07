@@ -16,7 +16,7 @@ To use the setup right away, the `sync.sh` file will come in handy.
 $ cd $HOME
 $ mkdir repos
 $ cd repos
-$ git clone https://github.com/Ariwor/dotfiles
+$ git clone https://github.com/athatheo/dotfiles
 $ cd dotfiles
 $ bash sync.sh
 ```
