@@ -11,6 +11,7 @@ zathura-pdf-mupdf
 adobe-source-code-pro-fonts
 atom
 pulseaudio
+pulseaudio-bluetooth
 awesome-terminal-fonts
 autorandr
 signal-desktop
