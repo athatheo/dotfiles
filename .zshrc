@@ -114,7 +114,10 @@ alias clion="~/clion"
 alias idea="~/idea"
 alias pycharm="~/pycharm"
 alias webstorm="~/webstorm"
-
+alias bar="pacmd set-default-sink 1 && pacmd set-default-source 3"
+alias hp="pacmd set-default-sink 0 && pacmd set-default-source 1"
+alias reb="reboot"
+alias sd="shutdown now"
 ### file browsing
 # list files
 alias ll="ls -Ahl"
