@@ -9,6 +9,14 @@ maim
 zathura
 zathura-pdf-mupdf
 adobe-source-code-pro-fonts
-pulseaudio
-awesome-terminal-fonts
 atom
+pulseaudio
+pulseaudio-bluetooth
+awesome-terminal-fonts
+autorandr
+signal-desktop
+discord
+flameshot
+intellij-idea-community-edition
+pycharm-community-edition
+bluez

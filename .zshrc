@@ -27,7 +27,7 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
-#antigen theme geometry-zsh/geometry
+# antigen theme geometry-zsh/geometry
 antigen bundle mafredri/zsh-async
 antigen theme denysdovhan/spaceship-prompt
 #autoload -U promptinit; promptinit
@@ -85,7 +85,6 @@ chpwd() {
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 
 export PATH="$HOME/tools/cubemx/STM32CubeMX/:$PATH"
 export PATH="$HOME/tools/android-studio/bin:$PATH"
