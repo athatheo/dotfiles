@@ -27,9 +27,11 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
-# antigen theme geometry-zsh/geometry
+#antigen theme geometry-zsh/geometry
 antigen bundle mafredri/zsh-async
-antigen bundle sindresorhus/pure
+antigen theme denysdovhan/spaceship-prompt
+#autoload -U promptinit; promptinit
+#prompt pure
 
 # Tell Antigen that you're done.
 antigen apply
@@ -84,6 +86,7 @@ chpwd() {
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+
 export PATH="$HOME/tools/cubemx/STM32CubeMX/:$PATH"
 export PATH="$HOME/tools/android-studio/bin:$PATH"
 export PATH="$HOME/tools/flutter/bin:$PATH"
@@ -115,6 +118,10 @@ alias idea="~/idea"
 alias pycharm="~/pycharm"
 alias webstorm="~/webstorm"
 
+alias bar="pacmd set-default-sink 1 && pacmd set-default-source 3"
+alias hp="pacmd set-default-sink 0 && pacmd set-default-source 1 && amixer set Capture 100%"
+alias reb="reboot"
+alias sd="shutdown now"
 ### file browsing
 # list files
 alias ll="ls -Ahl"
@@ -191,3 +198,4 @@ export LC_ALL="en_US.UTF-8"
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
+export PYTHON3EXE="/usr/bin/python3.9"

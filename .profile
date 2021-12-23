@@ -8,7 +8,7 @@ BIN_PATH="$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
 
 # mons -e left
 
-export BROWSER="firefox"
+export BROWSER="/usr/bin/google-chrome-stable"
 export TERMINAL="kitty"
 export FILES="ranger"
 export CODEEDITOR="code"

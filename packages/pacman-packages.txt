@@ -9,3 +9,6 @@ maim
 zathura
 zathura-pdf-mupdf
 adobe-source-code-pro-fonts
+pulseaudio
+awesome-terminal-fonts
+atom
