@@ -182,7 +182,8 @@ exec $TERMINAL
 exec $TERMINAL
 exec discord
 exec "~/clion"
-exec signal-desktop
+#exec signal-desktop
+exec obsidian
 exec "~/pycharm"
 #exec "~/webstorm"
 #exec "~/have-a-break.script"
@@ -197,6 +198,7 @@ assign [class="Signal"] $ws5
 assign [class="jetbrains-clion"] $ws4
 assign [class="jetbrains-pycharm"] $ws3
 assign [class="jetbrains-webstorm"] $ws6
+assign [class="obsidian"] $ws6
 
 # Keyboard layout stuff
 exec --no-startup-id setxkbmap -option 'grp:alt_shift_toggle' -layout us,el
