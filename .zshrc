@@ -1,63 +1,61 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# ------------------------------- PATH ------------------------------- #
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
+export PATH="/Library/TeX/texbin:$PATH"
 
-# export ZSH="$HOME/.oh-my-zsh"
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
-source $HOME/antigen.zsh
+# ---------------------------- Completions ---------------------------- #
+# brew shellenv (~/.zprofile) exports HOMEBREW_PREFIX; fall back for non-login shells
+: "${HOMEBREW_PREFIX:=/opt/homebrew}"
+fpath=("$HOMEBREW_PREFIX/share/zsh-completions" "$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
 
-export TERMINAL="kitty"
+autoload -Uz compinit
+# Full compinit (with security audit) at most once a day; cached -C otherwise.
+if [[ -n ~/.zcompdump(#qN.mh-24) ]]; then
+  compinit -C
+else
+  compinit
+  touch ~/.zcompdump   # compinit skips the rewrite (and mtime bump) when nothing changed
+fi
 
-# Export sync script thingy
-export already_setup=true
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # case-insensitive
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle git
-antigen bundle command-not-found
-antigen bundle ael-code/zsh-colored-man-pages
-antigen bundle httpie
-antigen bundle docker
-antigen bundle git-extras
-antigen bundle zsh-users/zsh-completions
+# ------------------------------ Options ------------------------------ #
+setopt correct                     # command auto-correction (was ENABLE_CORRECTION)
+setopt auto_cd                     # `dirname` instead of `cd dirname`
+setopt auto_pushd pushd_ignore_dups pushdminus
 
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
+# History (oh-my-zsh-like defaults)
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
+setopt share_history hist_ignore_dups hist_ignore_space hist_verify
+setopt extended_history hist_expire_dups_first
 
-# Load the theme.
-# antigen theme geometry-zsh/geometry
-antigen bundle mafredri/zsh-async
-antigen theme denysdovhan/spaceship-prompt
-#autoload -U promptinit; promptinit
-#prompt pure
+# Up/down arrows search history by typed prefix (oh-my-zsh behavior)
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "${terminfo[kcuu1]:-^[[A}" up-line-or-beginning-search
+bindkey "${terminfo[kcud1]:-^[[B}" down-line-or-beginning-search
 
-# Tell Antigen that you're done.
-antigen apply
+# ------------------------------ Plugins ------------------------------ #
+source ~/.zsh/omz-git.zsh                # oh-my-zsh git aliases (vendored)
+source ~/.zsh/colored-man-pages.zsh      # colored man pages (vendored)
+source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# ------------------------------ Prompt ------------------------------ #
+eval "$(starship init zsh)"
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# -------------------------------- Git Aliases ------------------------------- #
-
+# -------------------------- Git Aliases (custom) --------------------- #
+# These intentionally override omz-git.zsh: gd (git diff), gl (git pull!), glog
 alias gd="git diff --color-words"
 alias gl="git log --oneline --decorate"
 alias glog="git log --oneline --all --graph --decorate -n 30"
@@ -65,60 +63,17 @@ alias gslog="git log --graph --abbrev-commit --decorate --date=relative --format
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Custom cd functinallity
-#custom_cd() {
-#    cd $1
-#    ls --color=auto
-#}
-#alias cd="custom_cd"
-
-chpwd() {
-    ls --color=auto
-}
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-export PATH="$HOME/tools/cubemx/STM32CubeMX/:$PATH"
-export PATH="$HOME/tools/android-studio/bin:$PATH"
-export PATH="$HOME/tools/flutter/bin:$PATH"
-export PATH="$HOME/.scripts:$PATH"
-export PATH="$HOME/tools/flutter/bin:$PATH"
-export PATH="${PATH}:${HOME}/.local/bin/"
-# export JAVA_HOME="/usr/lib/jvm/java-8-openjdk/"
-export ANDROID_HOME="$HOME/Android/Sdk"
-# export IDF_PATH="$HOME/esp/esp-idf"
-export IDF_PATH="$HOME/esp/ESP8266_RTOS_SDK"
-export TERM=xterm-256color
-# export TERM=xterm-kitty
-# export TERM=xterm
+# Auto-ls on cd (hook array so future plugins' chpwd hooks compose)
+autoload -Uz add-zsh-hook
+_auto_ls() { ls --color=auto }
+add-zsh-hook chpwd _auto_ls
 
 # Aliases
 alias cl="clear"
-# alias cubemx="tools/cubemx/STM32CubeMX"
-alias zcon="vi $HOME/.zshrc"
-alias cfi="vi $HOME/.config/i3/config"
-alias dot="$HOME/repos/dotfiles/"
-alias userpackages="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
-alias sync="bash $HOME/repos/dotfiles/sync.sh"
 alias pip="pip3"
 alias mexec="chmod a+x"
 alias vi="vim"
 alias vim="nvim"
-alias clion="~/clion"
-alias idea="~/idea"
-alias pycharm="~/pycharm"
-alias webstorm="~/webstorm"
-
-alias bar="pacmd set-default-sink 1 && pacmd set-default-source 3"
-alias hp="pacmd set-default-sink 0 && pacmd set-default-source 1 && amixer set Capture 100%"
 alias reb="reboot"
 alias sd="shutdown now"
 ### file browsing
@@ -142,48 +97,17 @@ alias cp="cp -rfv"
 alias mv="mv -fv"
 alias mvi="mv -fvi"
 
-# History directory navigation
-d='dirs -v | head -10'
-1='cd -'
-2='cd -2'
-3='cd -3'
-4='cd -4'
-5='cd -5'
-6='cd -6'
-7='cd -7'
-8='cd -8'
-9='cd -9'
-
-wal-tile() {
-    wal -n -i "$@"
-    feh --bg-tile "$(<"${HOME}/.cache/wal/wal")"
-}
-
-# Open files with zathura and disown
-za() {
-    zathura $1 &
-    disown
-    kill $PPID
-}
-
-# . $HOME/esp/esp-idf/export.sh
-
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] &&
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] &&
-    eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-PATH="/home/stavrosfil/perl5/bin${PATH:+:${PATH}}"
-export PATH
-PERL5LIB="/home/stavrosfil/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL5LIB
-PERL_LOCAL_LIB_ROOT="/home/stavrosfil/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_LOCAL_LIB_ROOT
-PERL_MB_OPT="--install_base \"/home/stavrosfil/perl5\""
-export PERL_MB_OPT
-PERL_MM_OPT="INSTALL_BASE=/home/stavrosfil/perl5"
-export PERL_MM_OPT
+# History directory navigation (was provided by oh-my-zsh)
+alias d='dirs -v | head -10'
+alias 1='cd -1'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
 
 # Automatically start a tmux session when connecting with SSH
 if [[ -z "$TMUX" ]] && [ "$SSH_CONNECTION" != "" ]; then
@@ -192,9 +116,5 @@ fi
 
 alias tmux="tmux -u"
 
-# Fix repeating characters on tab completion
-export LC_ALL="en_US.UTF-8"
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-export PYTHON3EXE="/usr/bin/python3.9"
+# Syntax highlighting must be sourced last
+source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
